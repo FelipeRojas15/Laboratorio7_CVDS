@@ -57,8 +57,8 @@ public class JDBCExample {
             System.out.println("-----------------------");
             
             
-            int suCodigoECI=20134423;
-            registrarNuevoProducto(con, 2153043, "Felipe", 9999999);            
+            int suCodigoECI=2153049;
+            registrarNuevoProducto(con, suCodigoECI, "Felipe", 9999999);            
             con.commit();
                         
             
@@ -84,13 +84,13 @@ public class JDBCExample {
         //Asignar parámetros
         //usar 'execute'
         PreparedStatement registro = null;
-        String updateString =" INSERT INTO  ORD_PRODUCTOS(codigo,nombre,precio)"
+        String updateString ="INSERT INTO  ORD_PRODUCTOS(codigo,nombre,precio)"
                             + " VALUES (?, ?, ?)";
         registro =con.prepareStatement(updateString);
         registro.setInt(1, codigo);
         registro.setString(2, nombre);
         registro.setInt(3, precio);
-       
+        registro.execute();
         con.commit();
         
     }
@@ -133,14 +133,25 @@ public class JDBCExample {
      * @param codigoPedido código del pedido cuyo total se calculará
      * @return el costo total del pedido (suma de: cantidades*precios)
      */
-    public static int valorTotalPedido(Connection con, int codigoPedido){
-        
+    public static int valorTotalPedido(Connection con, int codigoPedido) throws SQLException{
+        int result=0;
         //Crear prepared statement
+        PreparedStatement valorPedido = null;
+        String updateStatement = "SELECT sum(precio*cantidad)"
+                                + " FROM ORD_PEDIDOS,ORD_DETALLE_PEDIDO,ORD_PRODUCTOS"
+                                + " WHERE ORD_PEDIDOS.codigo = ORD_DETALLE_PEDIDO.pedido_fk AND ORD_DETALLE_PEDIDO.producto_fk=ORD_PRODUCTOS.codigo AND ORD_PEDIDOS.codigo= ?";
+        
         //asignar parámetros
+        valorPedido = con.prepareStatement(updateStatement);
+        valorPedido.setInt(1,codigoPedido);
+        ResultSet firstQuery = valorPedido.executeQuery();
+        while (firstQuery.next()){
+            result = firstQuery.getInt("sum(precio*cantidad)");
+        }
         //usar executeQuery
         //Sacar resultado del ResultSet
         
-        return 0;
+        return result;
     }
     
 
