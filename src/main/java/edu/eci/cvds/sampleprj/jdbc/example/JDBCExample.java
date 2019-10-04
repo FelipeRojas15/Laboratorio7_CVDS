@@ -135,39 +135,35 @@ public class JDBCExample {
      * @return el costo total del pedido (suma de: cantidades*precios)
      */
     public static int valorTotalPedido(Connection con, int codigoPedido) throws SQLException{
-<<<<<<< HEAD
+
         
-=======
+
         int result=0;
->>>>>>> 6bd906a58903c920e92a32c2f37ea04fdc25061c
+
         //Crear prepared statement
         PreparedStatement valorPedido = null;
         String updateStatement = "SELECT sum(precio*cantidad)"
                                 + " FROM ORD_PEDIDOS,ORD_DETALLE_PEDIDO,ORD_PRODUCTOS"
                                 + " WHERE ORD_PEDIDOS.codigo = ORD_DETALLE_PEDIDO.pedido_fk AND ORD_DETALLE_PEDIDO.producto_fk=ORD_PRODUCTOS.codigo AND ORD_PEDIDOS.codigo= ?";
         
-        //asignar parámetros
-        valorPedido = con.prepareStatement(updateStatement);
-        valorPedido.setInt(1,codigoPedido);
-        ResultSet firstQuery = valorPedido.executeQuery();
-        while (firstQuery.next()){
-            result = firstQuery.getInt("sum(precio*cantidad)");
+        try{
+            valorPedido = con.prepareStatement(updateStatement);
+            valorPedido.setInt(1,codigoPedido);
+            ResultSet firstQuery = valorPedido.executeQuery();
+            while (firstQuery.next()){
+                result = firstQuery.getInt("sum(precio*cantidad)");}
+        }catch(SQLException e){
+                
+            e.printStackTrace();
         }
         //usar executeQuery
         //Sacar resultado del ResultSet
-<<<<<<< HEAD
-        PreparedStatement valorTotal = null;
-        String query = "SELECT SUM(cantidad*precio) from ORD_DETALLE_PEDIDO, ORD_PRODUCTOS WHERE ? = pedido_fk AND producto_fk = codigo";
-        valorTotal = con.prepareStatement(query);
-        valorTotal.setInt(1,codigoPedido);
+        con.commit();
+        
                 
-        ResultSet result= valorTotal.executeQuery();
-        result.next();
-        return result.getInt("SUM(cantidad*precio)");
-=======
         
         return result;
->>>>>>> 6bd906a58903c920e92a32c2f37ea04fdc25061c
+    
     }
     
 

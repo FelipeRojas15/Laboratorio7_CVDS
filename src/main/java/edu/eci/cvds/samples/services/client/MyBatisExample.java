@@ -51,6 +51,7 @@ public class MyBatisExample {
                 throw new RuntimeException(e.getCause());
             }
         }
+        
         return sqlSessionFactory;
     }
 
@@ -63,14 +64,11 @@ public class MyBatisExample {
         SqlSessionFactory sessionfact = getSqlSessionFactory();
 
         SqlSession sqlss = sessionfact.openSession();
-        
         ClienteMapper cm=sqlss.getMapper(ClienteMapper.class);
         System.out.println(cm.consultarClientes());
-        System.out.println(cm.consultarCliente(69));
         
-        allMapper am = sqlss.getMapper(allMapper.class);
-        System.out.println(am.allMapperResult());
         //Crear el mapper y usarlo: 
+        
         //ClienteMapper cm=sqlss.getMapper(ClienteMapper.class)
         //cm...
         

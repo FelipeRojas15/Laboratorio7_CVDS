@@ -10,9 +10,8 @@
     <resultMap type='ItemRentado' id='ItemRentadoResult'>
         <id property='id' column='id'/>        
         <result property='fechainiciorenta' column='fechainiciorenta'/>        
-        <result property='fechafinrenta' column='fechafinrenta'/>        
-        <association property='CLIENTES_documento' column='documento' javaType="Cliente"></association>        
-        <association property='ITEMS_id' column='id' javaType="Item"></association>        
+        <result property='fechafinrenta' column='fechafinrenta'/>               
+        <association property='ITEMS_id' column='id' javaType="Item" columnPrefix ='itemRentado_'></association>        
         
     </resultMap>
    
