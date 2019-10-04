@@ -5,6 +5,7 @@
 
 
 <mapper namespace="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemRentadoMapper">           
+        
     
     <resultMap type='ItemRentado' id='ItemRentadoResult'>
         <id property='id' column='id'/>        

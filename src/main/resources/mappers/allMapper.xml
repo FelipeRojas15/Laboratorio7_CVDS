@@ -5,36 +5,19 @@
 
 
 <mapper namespace="edu.eci.cvds.sampleprj.dao.mybatis.mappers.allMapper">           
-    <select parameterType="map" id="allMapper">
-        select
-    
-        c.nombre,
-        c.documento,
-        c.telefono,
-        c.direccion,
-        c.email,
-        c.vetado,
-
-        ir.id ,
-        ir.fechainiciorenta ,
-        ir.fechafinrenta ,
-
-        i.id ,
-        i.nombre ,
-        i.descripcion ,
-        i.fechalanzamiento ,
-        i.tarifaxdia ,
-        i.formatorenta ,
-        i.genero ,        
-        ti.id ,
-        ti.descripcion 
-
-
-        FROM VI_CLIENTES as c 
-        left join VI_ITEMRENTADO as ir on c.documento=ir.CLIENTES_documento 
-        left join VI_ITEMS as i on ir.ITEMS_id=i.id 
-        left join VI_TIPOITEM as ti on i.TIPOITEM_id=ti.id 
+    <select parameterType="map" id="allMapperResult" resultMap = "allMapperResult">
+        select c.nombre, c.documento, c.telefono, c.direccion, c.email, c.vetado, ir.id, ir.fechainiciorenta, ir.fechafinrenta, i.id, i.nombre, i.descripcion, i.fechalanzamiento, i.tarifaxdia, i.formatorenta, i.genero, i.id, ti.descripcion FROM VI_CLIENTES as c  left join VI_ITEMRENTADO as ir on c.documento=ir.CLIENTES_documento left join VI_ITEMS as i on ir.ITEMS_id=i.id left join VI_TIPOITEM as ti on i.TIPOITEM_id=ti.id 
     </select>  
+    
+    <resultMap type='Cliente' id='allMapperResult'>
+        <id property='documento' column='documento'/>        
+        <result property='nombre' column='nombre'/>
+        <result property='telefono' column='telefono'/>  
+        <result property='direccion' column='direccion'/>  
+        <result property='email' column='email'/>  
+        <result property='vetado' column='vetado'/>  
+        <collection property='rentados' column="id" ofType='ItemRentado' resultMap='ItemRentadoResult'></collection>
+    </resultMap> 
    
                 
 </mapper>
