@@ -20,6 +20,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class JDBCExample {
             con.setAutoCommit(false);
                  
             
-            System.out.println("Valor total pedido 1:"+valorTotalPedido(con, 1));
+            System.out.println("Valor total pedido 1: "+valorTotalPedido(con, 1));
             
             List<String> prodsPedido=nombresProductosPedido(con, 1);
             
@@ -133,14 +134,20 @@ public class JDBCExample {
      * @param codigoPedido código del pedido cuyo total se calculará
      * @return el costo total del pedido (suma de: cantidades*precios)
      */
-    public static int valorTotalPedido(Connection con, int codigoPedido){
+    public static int valorTotalPedido(Connection con, int codigoPedido) throws SQLException{
         
         //Crear prepared statement
         //asignar parámetros
         //usar executeQuery
         //Sacar resultado del ResultSet
-        
-        return 0;
+        PreparedStatement valorTotal = null;
+        String query = "SELECT SUM(cantidad*precio) from ORD_DETALLE_PEDIDO, ORD_PRODUCTOS WHERE ? = pedido_fk AND producto_fk = codigo";
+        valorTotal = con.prepareStatement(query);
+        valorTotal.setInt(1,codigoPedido);
+                
+        ResultSet result= valorTotal.executeQuery();
+        result.next();
+        return result.getInt("SUM(cantidad*precio)");
     }
     
 

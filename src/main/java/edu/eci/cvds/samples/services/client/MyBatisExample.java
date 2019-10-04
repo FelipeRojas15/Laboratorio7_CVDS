@@ -1,4 +1,4 @@
-/*
+    /*
  * Copyright (C) 2015 hcadavid
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,6 +18,8 @@ package edu.eci.cvds.samples.services.client;
 
 
 
+import edu.eci.cvds.sampleprj.dao.mybatis.mappers.ClienteMapper;
+import edu.eci.cvds.sampleprj.dao.mybatis.mappers.allMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -61,8 +63,10 @@ public class MyBatisExample {
         SqlSessionFactory sessionfact = getSqlSessionFactory();
 
         SqlSession sqlss = sessionfact.openSession();
-
         
+        ClienteMapper cm=sqlss.getMapper(ClienteMapper.class);
+        System.out.println(cm.consultarClientes());
+        System.out.println(cm.consultarCliente(69));
         //Crear el mapper y usarlo: 
         //ClienteMapper cm=sqlss.getMapper(ClienteMapper.class)
         //cm...

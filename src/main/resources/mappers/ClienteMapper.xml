@@ -4,7 +4,31 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ClienteMapper">
+    <select parameterType="map" id="consultarClientes" resultMap="ClienteResult">
+		SELECT * FROM VI_CLIENTES
+    </select>       	
+    
+    <select parameterType="map" id="consultarCliente" resultMap="ClienteResult">
+		SELECT * FROM VI_CLIENTES WHERE documento = #{idcli}
+    </select>       	
+    
+    <resultMap type='Cliente' id='ClienteResult'>
+        <id property='documento' column='documento'/>        
+        <result property='nombre' column='nombre'/>
+        <result property='telefono' column='telefono'/>  
+        <result property='direccion' column='direccion'/>  
+        <result property='email' column='email'/>  
+        <result property='vetado' column='vetado'/>  
+        <collection property='rentados' column="id" ofType='ItemRentado' resultMap='ItemRentadoResult'></collection>
+    </resultMap>        
+    
+    <resultMap type='ItemRentado' id='ItemRentadoResult'>
+        <id property='id' column='id'/>        
+        <result property='fechainiciorenta' column='fechainiciorenta'/>        
+        <result property='fechafinrenta' column='fechafinrenta'/>        
+        <association property='CLIENTES_documento' column='documento' javaType="Cliente"></association>        
+        <association property='ITEMS_id' column='id' javaType="Item"></association>        
+        
+    </resultMap>  
 
-
-          	
 </mapper>
