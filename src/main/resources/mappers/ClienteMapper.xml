@@ -14,9 +14,9 @@
 			c.email,
 			c.vetado,
 			
-			ir.id ,
-			ir.fechainiciorenta,
-			ir.fechafinrenta ,
+			ir.id as itemrent_id ,
+			ir.fechainiciorenta as itemrent_fechainiciorenta,
+			ir.fechafinrenta as itemrent_fechafinrenta,
 			
 			i.id as item_id,
 			i.nombre as item_nombre ,
@@ -40,14 +40,13 @@
     <resultMap type='Item' id='ItemResult'>
         <id property='id' column='id'/>
         <result property='nombre' column='nombre'/>
-        <result property='descripcion' column='descripcion'/>  
-        <result property='fechalanzamiento' column='fechalanzamiento'/>  
-        <result property='tarifaxdia' column='tarifaxdia'/>  
-        <result property='formatorenta' column='formatorenta'/>
+        <result property='descripcion' column='descripcion'/>
+        <result property='fechaLanzamiento' column='fechaLanzamiento'/>
+        <result property='tarifaxDia' column='tarifaxdia'/>
+        <result property='formatoRenta' column='formatorenta'/> 
         <result property='genero' column='genero'/>
-        <association property='tipo' javaType="TipoItem" columnPrefix ='item_' resultMap='TipoItemResult' />
+        <association property='tipo' column='TIPOITEM_id' resultMap='TipoItemResult' columnPrefix='item_'></association>
     </resultMap>
-    
      <resultMap type='ItemRentado' id='ItemRentadoResult'>
         <id property='id' column='id'/>        
         <result property='fechainiciorenta' column='fechainiciorenta'/>        
@@ -62,7 +61,7 @@
         <result property='direccion' column='direccion'/>  
         <result property='email' column='email'/>  
         <result property='vetado' column='vetado'/>  
-        <collection property='rentados' javaType='ArrayList' ofType='ItemRentado' resultMap='ItemRentadoResult'></collection>
+        <collection property='rentados' javaType='ArrayList' ofType='ItemRentado' columnPrefix="itemrent_" resultMap='ItemRentadoResult'></collection>
     </resultMap>      
       
     <resultMap type='TipoItem' id='TipoItemResult'>
