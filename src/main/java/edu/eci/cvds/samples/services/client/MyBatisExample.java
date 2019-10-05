@@ -19,10 +19,16 @@ package edu.eci.cvds.samples.services.client;
 
 
 import edu.eci.cvds.sampleprj.dao.mybatis.mappers.ClienteMapper;
+import edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper;
 import edu.eci.cvds.sampleprj.dao.mybatis.mappers.allMapper;
+import edu.eci.cvds.samples.entities.Item;
+import edu.eci.cvds.samples.entities.TipoItem;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -61,16 +67,21 @@ public class MyBatisExample {
      * @throws SQLException 
      */
     public static void main(String args[]) throws SQLException {
+        
         SqlSessionFactory sessionfact = getSqlSessionFactory();
 
         SqlSession sqlss = sessionfact.openSession();
         ClienteMapper cm=sqlss.getMapper(ClienteMapper.class);
+        ItemMapper cn=sqlss.getMapper(ItemMapper.class);
         System.out.println(cm.consultarClientes());
+        System.out.println(cm.consultarCliente(4));
+        cm.agregarItemRentadoACliente(98, 6, convertDate("1999-12-29"), convertDate("2019-03-12"));
+        TipoItem item1= new TipoItem(3,"Tema enredado ");
+        Item item = new Item(item1, 65, "Calabaza", "Es naranja ", convertDate("1999-12-25"), 345, "formato de renta", "Travesti");
+        Item aItem;
+        aItem = new Item(item1,9999,"Lab de acso","muy largo",convertDate("2177-08-09"), 60,"viernes","arroz" );
+        cn.insertarItem(aItem);
         
-        //Crear el mapper y usarlo: 
-        
-        //ClienteMapper cm=sqlss.getMapper(ClienteMapper.class)
-        //cm...
         
         
         
@@ -81,6 +92,13 @@ public class MyBatisExample {
 
         
         
+    }
+    public static Date convertDate(String fecha){
+        try {
+            return new SimpleDateFormat("yyyy-MM-dd").parse(fecha);
+        } catch (ParseException e) {
+            return null;
+        }        
     }
 
 

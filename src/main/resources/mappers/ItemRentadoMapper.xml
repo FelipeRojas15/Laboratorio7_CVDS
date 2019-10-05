@@ -11,9 +11,8 @@
         <id property='id' column='id'/>        
         <result property='fechainiciorenta' column='fechainiciorenta'/>        
         <result property='fechafinrenta' column='fechafinrenta'/>               
-        <association property='ITEMS_id' column='id' javaType="Item" columnPrefix ='itemRentado_'></association>        
-        
-    </resultMap>
+        <association property='item' javaType="Item"  resultMap='edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper.ItemResult' columnPrefix ='item_'></association>        
+    </resultMap> 
    
                 
 </mapper>
